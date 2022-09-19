@@ -1,0 +1,42 @@
+.root,
+.empty {
+    max-width: 1450px;
+    width: 100%;
+}
+
+.root {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    row-gap: 20px
+}
+
+.empty {
+    text-align: center;
+}
+
+@media (max-width: 1450px) {
+    .root {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 1200px) {
+    .root {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 880px) {
+    .root {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 580px) {
+    .root {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+

@@ -1,0 +1,17 @@
+.container {
+  position: relative;
+  overflow: hidden;
+}
+
+.childrenContainer {
+    overflow: auto;
+}
+
+.shadow {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 8px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0));
+}

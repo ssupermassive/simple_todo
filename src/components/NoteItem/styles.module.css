@@ -1,0 +1,85 @@
+.root {
+  position: relative;
+}
+
+.newItem,
+.item {
+  min-width: 250px;
+  min-height: 310px;
+  max-height: 310px;
+  border-radius: 12px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.newItem {
+  padding: 12px;
+}
+
+.item {
+  border: 1px solid #ccc;
+  padding: 18px 12px 12px 12px;
+  -webkit-box-shadow: 0px 0px 29px -5px rgba(34, 60, 80, 0.5);
+  -moz-box-shadow: 0px 0px 29px -5px rgba(34, 60, 80, 0.5);
+  box-shadow: 0px 0px 29px -5px rgba(34, 60, 80, 0.5);
+  
+}
+
+.newItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px dashed #ccc;
+}
+
+.item:hover {
+  -webkit-box-shadow: 0px 0px 29px -5px rgba(34, 60, 80, 0.85);
+  -moz-box-shadow: 0px 0px 29px -5px rgba(34, 60, 80, 0.85);
+  box-shadow: 0px 0px 29px -5px rgba(34, 60, 80, 0.85);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 100%;
+}
+
+.content:hover .deleteButton {
+  display: block;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.text {
+  white-space: pre-wrap;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  line-clamp: 13;
+  -webkit-line-clamp: 13;
+}
+
+.deleteButton {
+  display: none;
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  height: 24px;
+  width: 24px;
+}
+
+.imgContainer {
+  position: absolute;
+  top: 0;
+  height: 18px;
+  width: 100%;
+}
+
+.pinImg {
+  position: relative;
+  bottom: 12px;
+}
