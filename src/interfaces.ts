@@ -7,4 +7,5 @@ export interface INote {
 
 export interface IEventTarget extends HTMLElement {
   value: string;
+  name: string;
 }

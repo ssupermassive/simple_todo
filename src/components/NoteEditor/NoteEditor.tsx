@@ -1,7 +1,8 @@
-import React, { FormEvent } from "react";
+import { FormEvent, useReducer } from "react";
 import { INote, IEventTarget } from "../../interfaces";
 import styles from "./styles.module.css";
 import { Palette } from "./Palette";
+import { Button } from "../Button";
 import { ReactComponent as CloseIcon } from "../../image/close.svg";
 
 interface IProps {
@@ -10,106 +11,150 @@ interface IProps {
   closeButtonClick?: () => void;
 }
 
+interface IState {
+  data: INote;
+  errorText?: string;
+}
+
+interface IAction {
+  type: Actions;
+  payload: IUpdateDataAction | IUpdateErrorTextAction;
+}
+
+interface IUpdateDataAction {
+  field: string;
+  value: any;
+}
+
+interface IUpdateErrorTextAction {
+  errorText: string;
+}
+
+enum Actions {
+  updateData = "updateData",
+  updateErrorText = "updateErrorText",
+}
+
 /**
  * Возвращает данные для редактирования
  * @param data
  * @returns
  */
-const getData = (data?: INote | null): INote => {
-  if (data) {
-    return data;
-  }
-
+const getNewData = (): INote => {
   return {
     id: Date.now(),
     title: "",
     text: "",
-    color: "yellow",
+    color: "#FFFF00",
   } as INote;
 };
 
-const NoteEditor = ({ data, onSubmit, closeButtonClick }: IProps) => {
-  const [currentData, setCurrentData] = React.useState(getData(data));
-  const [validationError, setValidationError] = React.useState("");
+const reducer = (state: IState, { type, payload }: IAction): IState => {
+  let updatedState;
+  switch (type) {
+    case Actions.updateData: {
+      const actionData = payload as IUpdateDataAction;
+      const updatedData = {
+        ...state.data,
+        [actionData.field]: actionData.value,
+      } as INote;
 
-  const updateData = (value: any, field: string) => {
-    const updatedData = { ...currentData, [field]: value } as INote;
-    setCurrentData(updatedData);
-  };
+      updatedState = { data: updatedData } as IState;
 
-  const titleChanged = (event: FormEvent): void => {
-    const { value } = event.target as IEventTarget;
-    updateData(value, "title");
-  };
+      // если в новых данных заполнено поле text - сбросим текст ошибки
+      if (updatedState.data.text) {
+        updatedState.errorText = "";
+      }
 
-  const textChanged = (event: FormEvent): void => {
-    const { value } = event.target as IEventTarget;
-    updateData(value, "text");
-
-    if (value) {
-      setValidationError("");
+      break;
     }
-  };
-
-  const validateData = (data: INote): boolean => {
-    let errorText;
-    if (!data.text || !data.text.length) {
-      errorText = "Введите текст заметки";
+    case Actions.updateErrorText: {
+      updatedState = { ...payload } as IState;
+      break;
     }
+  }
 
-    setValidationError(errorText || "");
+  return updatedState ? { ...state, ...updatedState } : state;
+};
 
-    return !errorText;
+/**
+ * Компонент редактирования заметки
+ * @param props
+ * @returns
+ */
+const NoteEditor = ({ data, onSubmit, closeButtonClick }: IProps): React.ReactElement => {
+  const [state, dispatch] = useReducer(reducer, {
+    data: data || getNewData(),
+  });
+
+  const dataValueChanged = (field: string, value: any): void => {
+    dispatch({
+      type: Actions.updateData,
+      payload: {
+        field,
+        value,
+      },
+    });
   };
 
-  const onSubmitHandler = (event: FormEvent) => {
-    event.preventDefault();
-    const validationSuccess = validateData(currentData);
+  const valueChangedHandler = (event: FormEvent): void => {
+    const { value, name } = event.target as IEventTarget;
+    dataValueChanged(name, value);
+  };
 
-    if (!validationSuccess) {
+  const onSubmitHandler = (event?: FormEvent<Element> | undefined) => {
+    event && event.preventDefault();
+    const { data } = state;
+
+    const errorText = !data.text || !data.text.length ? "Введите текст заметки" : "";
+    dispatch({ type: Actions.updateErrorText, payload: { errorText } });
+
+    if (errorText) {
       return;
     }
 
-    onSubmit && onSubmit(currentData);
+    onSubmit && onSubmit(data);
   };
 
   return (
     <div
       className={styles.container}
-      style={{ backgroundColor: currentData.color }}
+      style={{ backgroundColor: state.data.color }}
     >
       <div className={styles.header}>
         <input
-          value={currentData.title}
-          onInput={(event: FormEvent) => titleChanged(event)}
+          name="title"
+          value={state.data.title}
+          onInput={valueChangedHandler}
           maxLength={50}
           className={styles.titleInput}
           placeholder="Заголовок"
         />
         <div className="display-flex flex-shrink-0 items-center">
-          <button
+          <Button
             onClick={onSubmitHandler}
-            type="submit"
+            buttonStyle="unnacented"
             className={styles.saveButton}
           >
             Сохранить
-          </button>
+          </Button>
           <CloseIcon onClick={closeButtonClick} className={styles.closeIcon} />
         </div>
       </div>
       <div className={styles.content}>
-        <div className={styles.textValidationError}>{validationError}</div>
+        <div className={styles.textValidationError}>{state.errorText}</div>
         <textarea
-          value={currentData.text}
-          onInput={(event: FormEvent) => textChanged(event)}
+          name="text"
+          value={state.data.text}
+          onInput={valueChangedHandler}
           autoFocus={true}
-          className={styles.textArea}
+          className={`flex-grow ${styles.textArea}`}
           maxLength={500}
           placeholder="Текст..."
         />
         <Palette
-          value={currentData.color}
-          onChange={(value) => updateData(value, "color")}
+          value={state.data.color}
+          onChange={(value) => dataValueChanged("color", value)}
           className={styles.palette}
         />
       </div>

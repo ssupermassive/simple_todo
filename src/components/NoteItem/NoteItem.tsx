@@ -3,8 +3,10 @@ import styles from "./styles.module.css";
 import { INote } from "../../interfaces";
 import { ReactComponent as DeleteIcon } from "../../image/delete.svg";
 import RedPinImg from "../../image/pin_red.png";
-import BlueRedImgSrc from "../../image/pin_blue.png";
-import GreenRedImgSrc from "../../image/pin_green.png";
+import BluePinImg from "../../image/pin_blue.png";
+import GreenPinImg from "../../image/pin_green.png";
+import YellowPinImg from "../../image/pin_yellow.png";
+import PinkPinImg from "../../image/pin_pink.png";
 
 interface IProps {
   data: INote;
@@ -14,18 +16,18 @@ interface IProps {
 
 /**
  * Массив иконок канцелярский кнопок.
- * В массиве специально присутствуют повторяющиеся значения, что бы бал более высокий шанс выпадения разных иконок
+ * В массиве специально присутствуют повторяющиеся значения, что бы был более высокий шанс выпадения разных иконок
  * при работе рандомайзера
  */
 const PIN_IMAGES = [
-  RedPinImg, BlueRedImgSrc, GreenRedImgSrc, 
-  RedPinImg, BlueRedImgSrc, GreenRedImgSrc, 
-  RedPinImg, BlueRedImgSrc, GreenRedImgSrc
+  RedPinImg, BluePinImg, GreenPinImg, YellowPinImg, PinkPinImg,
+  RedPinImg, BluePinImg, GreenPinImg, YellowPinImg, PinkPinImg,
+  RedPinImg, BluePinImg, GreenPinImg, YellowPinImg, PinkPinImg
 ];
 
 const IMAGE_INDEXES = {
   start: 0,
-  end: 8
+  end: 14
 }
 
 /**
@@ -37,7 +39,12 @@ function getPinImage(): string {
   return PIN_IMAGES[index];
 }
 
-const NoteItem = ({ data, onClick, onDeleteClick }: IProps) => {
+/**
+ * Компонент заметки в списке
+ * @param props 
+ * @returns 
+ */
+const NoteItem = ({ data, onClick, onDeleteClick }: IProps): React.ReactElement => {
   
   // useState нужен, что бы при перерисовках иконка не генерилась каждый раз заного
   const [pinImage] = useState(getPinImage());
@@ -53,6 +60,7 @@ const NoteItem = ({ data, onClick, onDeleteClick }: IProps) => {
     <div className={`${styles.root} display-flex flex-direction_column`}>
       <div className={`${styles.imgContainer} display-flex justify-center`}>
         <img
+          alt="pin"
           className={styles.pinImg}
           width={32}
           height={32}
@@ -75,6 +83,7 @@ const NoteItem = ({ data, onClick, onDeleteClick }: IProps) => {
           </div>
           {onDeleteClick && (
             <DeleteIcon
+              title="Удалить"
               className={styles.deleteButton}
               onClick={deleteButtonClick}
             />

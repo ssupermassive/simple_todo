@@ -4,38 +4,31 @@
 
 .newItem,
 .item {
+  width: 100%;
   min-width: 250px;
   min-height: 310px;
   max-height: 310px;
   border-radius: 12px;
   cursor: pointer;
   overflow: hidden;
-}
-
-.newItem {
-  padding: 12px;
+  box-sizing: border-box;
 }
 
 .item {
-  border: 1px solid #ccc;
   padding: 18px 12px 12px 12px;
-  -webkit-box-shadow: 0px 0px 29px -5px rgba(34, 60, 80, 0.5);
-  -moz-box-shadow: 0px 0px 29px -5px rgba(34, 60, 80, 0.5);
-  box-shadow: 0px 0px 29px -5px rgba(34, 60, 80, 0.5);
-  
+  box-shadow: 10px 8px 29px -5px rgb(34 60 80 / 60%)
+}
+
+.item:hover {
+  box-shadow: 10px 8px 29px -5px rgb(34 60 80 / 85%);
 }
 
 .newItem {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px dashed #ccc;
-}
-
-.item:hover {
-  -webkit-box-shadow: 0px 0px 29px -5px rgba(34, 60, 80, 0.85);
-  -moz-box-shadow: 0px 0px 29px -5px rgba(34, 60, 80, 0.85);
-  box-shadow: 0px 0px 29px -5px rgba(34, 60, 80, 0.85);
+  border: 3px dashed #eaeaea;
+  padding: 12px;
 }
 
 .content {
@@ -82,4 +75,16 @@
 .pinImg {
   position: relative;
   bottom: 12px;
+}
+
+.addIcon {
+  height: 48px;
+  width: 48px;
+  fill: #eaeaea;
+}
+
+@media (pointer: coarse) {
+  .deleteButton {
+    display: block;
+  }
 }

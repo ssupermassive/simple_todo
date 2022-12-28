@@ -14,6 +14,7 @@ html {
 body,
 html {
   height: 100%;
+  min-width: 320px;
   box-sizing: border-box;
 }
 
@@ -40,6 +41,11 @@ textarea {
   outline: none;
 }
 
+input::placeholder,
+textarea::placeholder {
+  font-weight: normal;
+}
+
 textarea {
   padding: 0;
   height: 100%;
@@ -48,24 +54,16 @@ textarea {
   resize: none;
 }
 
-button {
-  border-radius: 12px;
-  background-color: #eaeaea;
-  border: 1px solid;
-  min-height: 24px;
-}
-
-button:hover {
-  background-color: #ccc;
-  cursor: pointer;
-}
-
 .display-flex {
   display: flex;
 }
 
 .flex-direction-column {
   flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
 }
 
 .flex-grow {

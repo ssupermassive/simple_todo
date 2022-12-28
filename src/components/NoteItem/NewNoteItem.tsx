@@ -5,10 +5,15 @@ interface IProps {
   onClick?: () => void;
 }
 
-const NewNoteItem = ({onClick}: IProps) => {
+/**
+ * Элемент списка, служащий для добавления новых записей
+ * @param props 
+ * @returns 
+ */
+const NewNoteItem = ({onClick}: IProps): React.ReactElement => {
   return (
     <div className={styles.newItem} title="Добавить заметку" onClick={onClick}>
-      <PlusIcon/>
+      <PlusIcon className={styles.addIcon}/>
     </div>
   );
 };

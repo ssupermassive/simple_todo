@@ -1,6 +1,19 @@
 .root {
     min-height: 60px;
-    height: 60px;
-    background-color: #eaeaea;
+    background: #2c3e50;
     border-bottom: 1px solid #ccc;
+}
+
+.title {
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .root {
+        flex-direction: column;
+    }
+
+    .content {
+        margin: 12px 0;
+    }
 }
